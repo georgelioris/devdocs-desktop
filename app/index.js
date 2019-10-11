@@ -19,18 +19,51 @@ let mainWindow
 let isQuitting = false
 let urlToOpen
 
-const isAlreadyRunning = app.makeSingleInstance(() => {
-  if (mainWindow) {
-    if (mainWindow.isMinimized()) {
-      mainWindow.restore()
+const gotTheLock = app.requestSingleInstanceLock()
+
+if (!gotTheLock) {
+  app.quit()
+} else if (gotTheLock) {
+  app.on('second-instance', () => {
+    if (mainWindow) {
+      if (mainWindow.isMinimized()) {
+        mainWindow.restore()
+      }
+
+      mainWindow.show()
+    }
+  })
+  app.on('ready', () => {
+    const shortcut = config.get('shortcut')
+    for (const name in shortcut) {
+      const accelerator = shortcut[name]
+      if (accelerator) {
+        toggleGlobalShortcut({
+          name,
+          accelerator,
+          registered: false,
+          action: toggleWindow
+        })
+      }
     }
 
-    mainWindow.show()
-  }
-})
-
-if (isAlreadyRunning) {
-  app.quit()
+    // Browser menu bar
+    Menu.setApplicationMenu(
+      createMenu({
+        toggleWindow
+      })
+    )
+    Menu.setApplicationMenu(null)
+    mainWindow = createMainWindow()
+    tray.create(mainWindow)
+    mainWindow.once('ready-to-show', () => {
+      mainWindow.show()
+      updater.init()
+      if (urlToOpen) {
+        mainWindow.webContents.send('link', urlToOpen)
+      }
+    })
+  })
 }
 
 function toggleWindow() {
