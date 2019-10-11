@@ -2,5 +2,6 @@ node_modules
 *.log
 .DS_Store
 dist/
+yarn.lock
 app/yarn.lock
 app/package-lock.json
