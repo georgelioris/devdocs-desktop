@@ -1,7 +1,7 @@
 {
-  "name": "DevDocs",
-  "productName": "DevDocs",
-  "version": "0.6.9",
+  "private": true,
+  "name": "devdocs-desktop",
+  "version": "0.0.0-this-does-not-matter",
   "description": "Desktop client for devdocs.io",
   "author": {
     "name": "EGOIST",
@@ -9,34 +9,63 @@
     "url": "https://github.com/egoist"
   },
   "license": "MIT",
-  "main": "index.js",
+  "main": "app/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "postinstall": "electron-builder install-app-deps",
+    "test": "npm run lint",
+    "lint": "xo",
+    "app": "DEBUG=devdocs-desktop:* electron app/index.js",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "release": "build"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/egoist/devdocs-desktop.git"
   },
-  "keywords": [
-    "devdocs",
-    "app",
-    "electron",
-    "desktop"
-  ],
+  "keywords": ["devdocs", "app", "electron"],
   "bugs": {
     "url": "https://github.com/egoist/devdocs-desktop/issues"
   },
   "homepage": "https://github.com/egoist/devdocs-desktop#readme",
+  "devDependencies": {
+    "devtron": "^1.4.0",
+    "electron": "^4.0.0",
+    "electron-builder": "^21.2.0",
+    "electron-devtools-installer": "^2.2.1",
+    "eslint-config-rem": "^3.2.0",
+    "minimist": "^1.2.0",
+    "xo": "^0.18.2"
+  },
+  "xo": {
+    "extends": "rem/prettier",
+    "envs": ["browser"],
+    "rules": {
+      "guard-for-in": 0,
+      "max-params": ["error", 5]
+    }
+  },
+  "build": {
+    "appId": "com.egoistian.devdocs",
+    "productName": "DevDocs",
+    "compression": "maximum",
+    "asar": true,
+    "mac": {
+      "category": "public.app-category.developer-tools"
+    },
+    "win": {
+      "target": ["nsis", "zip", "portable"]
+    },
+    "nsis": {
+      "oneClick": false
+    },
+    "linux": {
+      "synopsis": "DevDocs desktop app",
+      "category": "Development",
+      "target": ["AppImage", "deb", "tar.xz"]
+    }
+  },
   "dependencies": {
-    "axios": "^0.16.2",
-    "debug": "^3.1.0",
-    "electron-context-menu": "^0.9.1",
-    "electron-debug": "^1.1.0",
-    "electron-is-dev": "^0.1.2",
-    "electron-log": "^2.2.6",
-    "electron-store": "^1.1.0",
-    "electron-updater": "^2.16.1",
-    "mkdirp": "^0.5.1",
-    "semver-compare": "^1.0.0"
+    "electron-updater": "^4.1.2"
   }
 }

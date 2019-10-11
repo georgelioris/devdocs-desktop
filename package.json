@@ -15,27 +15,23 @@
     "test": "npm run lint",
     "lint": "xo",
     "app": "DEBUG=devdocs-desktop:* electron app/index.js",
-    "pack": "build --dir",
-    "dist": "build",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
     "release": "build"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/egoist/devdocs-desktop.git"
   },
-  "keywords": [
-    "devdocs",
-    "app",
-    "electron"
-  ],
+  "keywords": ["devdocs", "app", "electron"],
   "bugs": {
     "url": "https://github.com/egoist/devdocs-desktop/issues"
   },
   "homepage": "https://github.com/egoist/devdocs-desktop#readme",
   "devDependencies": {
     "devtron": "^1.4.0",
-    "electron": "^1.7.9",
-    "electron-builder": "^19.37.2",
+    "electron": "^4.0.0",
+    "electron-builder": "^21.2.0",
     "electron-devtools-installer": "^2.2.1",
     "eslint-config-rem": "^3.2.0",
     "minimist": "^1.2.0",
@@ -43,9 +39,7 @@
   },
   "xo": {
     "extends": "rem/prettier",
-    "envs": [
-      "browser"
-    ],
+    "envs": ["browser"],
     "rules": {
       "guard-for-in": 0,
       "max-params": ["error", 5]
@@ -60,11 +54,7 @@
       "category": "public.app-category.developer-tools"
     },
     "win": {
-      "target": [
-        "nsis",
-        "zip",
-        "portable"
-      ]
+      "target": ["nsis", "zip", "portable"]
     },
     "nsis": {
       "oneClick": false
@@ -72,11 +62,10 @@
     "linux": {
       "synopsis": "DevDocs desktop app",
       "category": "Development",
-      "target": [
-        "AppImage",
-        "deb",
-        "tar.xz"
-      ]
+      "target": ["AppImage", "deb", "tar.xz"]
     }
+  },
+  "dependencies": {
+    "electron-updater": "^4.1.2"
   }
 }
