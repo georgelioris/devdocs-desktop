@@ -5,3 +5,5 @@ dist/
 yarn.lock
 app/yarn.lock
 app/package-lock.json
+.eslintrc.js
+tags
