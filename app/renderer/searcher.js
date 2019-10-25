@@ -57,7 +57,7 @@ module.exports = class Searcher extends EventEmitter {
     this.$input.addEventListener('keydown', e => {
       if (e.which === 13) {
         // Enter
-        this.findNext(e.target.value)
+        this.findNext(e.target.value, {})
       } else if (e.which === 27) {
         // Esc
         this.close()
@@ -85,14 +85,14 @@ module.exports = class Searcher extends EventEmitter {
     this.emit('initialized')
   }
 
-  findNext(value, opts) {
+  findNext(value, options) {
     if (value) {
-      this.target.findInPage(value, opts)
+      this.target.findInPage(value, options)
     }
     return this
   }
 
-  findPrev(value, opts) {
+  findPrev(value, options) {
     if (value) {
       this.target.findInPage(
         value,
@@ -100,7 +100,7 @@ module.exports = class Searcher extends EventEmitter {
           {
             forward: false
           },
-          opts
+          options
         )
       )
     }
